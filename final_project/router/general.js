@@ -23,12 +23,12 @@ public_users.post("/register", (req, res) => {
     if (username && password) {
         if (!doesExist(username)) {
             users.push({ "username": username, "password": password });
-            return res.status(200).json({ message: "User successfully registred. Now you can login" });
+            return res.status(200).json({ message: "Customer successfully registred. Now you can login" });
         } else {
-            return res.status(404).json({ message: "User already exists!" });
+            return res.status(404).json({ message: "Customer already exists!" });
         }
     }
-    return res.status(404).json({ message: "Unable to register user." });
+    return res.status(404).json({ message: "Unable to register Customer." });
 });
 
 
@@ -67,7 +67,7 @@ public_users.get('/isbn/:isbn', function (req, res) {
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', async (req, res)=> {
     const { isbn } = req.params
-    const getBooks = Object.keys(books)
+    const getBooks = await Object.keys(books)
 
     let mybook = await getBooks.find((book) => book === isbn);
     let getBooksByISBN = books[mybook]
