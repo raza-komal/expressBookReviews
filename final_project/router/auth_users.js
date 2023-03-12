@@ -53,7 +53,7 @@ regd_users.post("/login", (req, res) => {
     req.session.authorization = {
       accessToken, username
     }
-    return res.status(200).send("User successfully logged in");
+    return res.status(200).send("Customer successfully logged in");
   } else {
     return res.status(208).json({ message: "Invalid Login. Check username and password" });
   }
@@ -89,7 +89,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
       getBookReviewByISBN[username] = { username, review };
     }
 
-    return res.status(200).send(books)
+    return res.status(200).send(`The Review for book with ${isbn} has been added/updated successfully`)
 
   }
   // No reviewes yet, add new Review
@@ -99,6 +99,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     getBookReviewByISBN = {};
     getBookReviewByISBN = { 'username': username, "review": review };
     books[mybook].reviews = getBookReviewByISBN;
+    return res.status(200).send(`The Review for book with ${isbn} has been added/updated successfully`)
 
   }
 });
@@ -126,16 +127,16 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
 
   for (let book in books) {
     if (!books[book].reviews.hasOwnProperty(username)) {
-      return res.status(404).send("Review not found");
+      return res.status(404).send(`Review not found for the ISBN ${isbn}`);
     }
 
     // Delete the review for the user
     delete books[book].reviews[`${username}`];
 
-    return res.status(200).send(books);
+    return res.status(200).send(`Review for ISBN ${isbn} posted by user ${username} deleted`);
   }
 
-  return res.status(200).send(books);
+  return res.status(200).send(`Review for ISBN ${isbn} posted by user ${username} deleted`);
 
 });
 
